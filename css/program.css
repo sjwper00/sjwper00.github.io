@@ -1,0 +1,123 @@
+/* '.className'*/
+.hidden{
+    display: none;
+}
+
+/* '#idName' */
+#weather{
+    text-align: right;
+}
+
+#clock{
+    text-align: center;
+    font-size: 1000%;
+    color: white;
+    margin-bottom: 0px;
+    font-family: sans-serif;
+}
+
+#todo-form{
+    text-align: center;
+}
+#greeting{
+    text-align: center;
+    font-family: Luminari, fantasy;
+    font-size: 400%;
+}
+
+#todo-form{
+    text-align: center;
+    padding-bottom: 50px;
+}
+
+#login-form{
+    text-align: center;
+}
+
+#loginColumn{
+    display: inline-block;    
+    font-size: 1.6px;
+    font-weight: bold;
+    margin: 1em auto;
+    padding: 2em 6em;
+    text-transform: uppercase;
+    margin: auto;
+    margin-top: 1em;
+    cursor: pointer;
+    left: 10em;
+    bottom: 5em;
+}
+
+.parent{
+    display: flex; 
+}
+
+.child1{
+    flex: 1;
+    width: 300px;
+    padding: 25px;
+    border: 5px;
+    margin: 25px;
+    box-sizing: border-box;
+    border-style: solid;
+    border-radius: 4%;
+    border-color: powderblue;
+}
+.child2{
+    flex: 2;
+    width: 300px;
+    padding: 25px;
+    border: 5px;
+    margin: 25px;
+    box-sizing: border-box;
+    border-style: solid;
+    border-radius: 2%;
+    border-color:powderblue;
+}
+
+/* #weather, #todo-list, #bookmarkList */
+span{ 
+    font-size: 150%;
+    font-family: cursive;
+}
+
+
+
+#clone{
+    position: fixed, left;
+    bottom: 0;
+    text-align: end;
+    font-size: 80%;
+    font-style: italic;
+}
+
+/* #login-form, #bookmarkContain */
+button {
+    background: none;
+    border: 3px solid #fff;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1.6px;
+    font-weight: bold;
+    margin: 1em auto;
+    padding: 2em 6em;
+    text-transform: uppercase;
+    margin: auto;
+    margin-top: 1em;
+    cursor: pointer;
+    left: 10em;
+    bottom: 5em;
+  }
+  
+/*background img에 대해 full screen이면서, flexible하게 하는 방법*/
+body{
+background-position: center center;
+background-size: cover;
+background-repeat: no-repeat;
+background-attachment: fixed;
+}
+
+a{
+overflow: hidden;
+word-break: break-all;
+}

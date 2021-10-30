@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="css/program.css" />
+        <title>MOMENTUM APP</title>
+
+        <script defer src="js/program.js"></script>
+        <script defer src="js/clock.js"></script>
+        <script defer src="js/quotes.js"></script>
+        <script defer src="js/background.js"></script>
+        <script defer src="js/todo.js"></script>
+        <script defer src="js/weather.js"></script>
+        <script defer src="js/bookmark.js"></script>
+    </head>
+    <body>
+        <div id = "weather">
+            <span></span>
+            <span></span>
+        </div>
+
+        <h2 id = "clock"></h2>
+
+        <form class = "hidden" id="login-form">    <!--div 대신 form으로 바꿈으로서 html자체에서 제공하는 기능을 javascript로 구현하지 않더라도 누릴 수 있다, 
+            하지만 해당 기능은 input이 form안에 있을 때만 작용한다. 하지만 form은 enter를 누름과 동시에 value를 submit하면서 페이지 새로고침이 된다, evet.prevantDefault()는 자동 새로고침 방지 함수!--> 
+            
+            <input 
+                id = loginColumn
+                required maxlength = "15"
+                type="text" 
+                placeholder="Name"
+                >
+            <button>Log In</button>
+        </form>
+
+        <h1 class="hidden" id ="greeting">
+        </h1>
+
+
+
+        <div class = "parent">
+            <div class = "child1" id = bookmarkContain>
+                <button>Bookmark</button>
+                        <span class = "hidden" id = "bookmarkList">
+                            <ul>
+                            <a href = "https://nomadcoders.co" target="_blank">Nomadcoders Homepage</a> <!--_blank 링크된 문서를 새로운 윈도우나 탭(tab)에서 오픈함-->
+                            </ul>
+                            <ul>
+                            <a href = "https://developer.mozilla.org/ko" target="_blank">Mozillia</a>
+                            </ul>
+                            <ul>
+                            <a href = "https://www.google.com" target="_blank">Google</a>
+                            </ul>
+                            <ul>
+                            <a href = "https://nomadcoders.co/javascript-for-beginners/lobby" target="_blank">To-do Video</a>
+                            </ul>
+                        </span>
+            </div>
+            
+            <div class = "child2" id = "todoDiv">
+                
+                <form id = "todo-form">
+                    <input 
+                    type="text", 
+                    style = "width: 190px"
+                    placeholder = "To do List Up" required />
+                </form>
+
+                <span id = "todo-list">
+                </span>
+            </div>
+            
+            <div class = "child1" id = "clone">
+                <h3></h3>
+                <h4></h4>
+            </div>
+        </div>    
+        
+    </body>
+
+</html> 
