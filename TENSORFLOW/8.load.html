@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>TensorFlow.js Tutorial - lemon</title>
+
+    <!-- Import TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
+
+</head>
+
+<body>
+    <script>
+       tf.loadLayersModel('localstorage://lemon').then(function(mode){    
+            mode.predict(tf.tensor([20])).print(); //저장한 model을 'lemo n'파일에 저장 후, load하는 방법
+    });
+    </script>
+</body>
+
+</html> 

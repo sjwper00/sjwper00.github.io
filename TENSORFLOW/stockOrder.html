@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>TensorFlow.js Tutorial - boston housing </title>
+
+    <!-- Import TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js">//tensorflow를 web browser에 까는 API</script> 
+    <script src="stockOrder.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis">//tfjs-vis 를 까는 library 주소</script>
+</head>
+
+<body>
+    <script>
+        // 1. 과거의 데이터를 준비합니다. 
+        var 날짜 = tf.tensor(판매날짜);
+        var 수량 = tf.tensor(판매수량);
+
+        // 2. 모델의 모양을 만듭니다. 
+        var X = tf.input({ shape: [5] });
+        var H1 = tf.layers.dense({ units: 8, activation:'relu' }).apply(X); //activation function을 은닉층(hidden layer)에는 지정한다, activation funciton은 지금 몰라도됨
+        var H2 = tf.layers.dense({ units: 13, activation:'relu' }).apply(H1);
+        var Y = tf.layers.dense({ units: 5 }).apply(H2);//2번째 은닉층(HIDDEN LAYER) 생성
+        var model = tf.model({ inputs: X, outputs: Y });
+        var compileParam = { optimizer: tf.train.adam(), loss: tf.losses.meanSquaredError }  //optimizer = 효율적으로 모델을 만드는 방법으로 선택해서 지정, loss = 얼마나 모델이 잘만들어졌는지 측정하는 방법
+        model.compile(compileParam);
+        //tfvis.show.modelSummary({name: '요약', tab:'모델'}, model); 
+        // 3. 데이터로 모델을 학습시킵니다. 
+//         var fitParam = {epochs: 100}
+        var _history = [];
+        var fitParam = {  
+          epochs: 800, 
+          callbacks:{  //callbacks = 객체
+            onEpochEnd: // onEpochEnd = property
+              function(epoch, logs){
+                console.log('epoch', epoch, logs, 'RMSE=>', Math.sqrt(logs.loss));//RMSE는 평균제곱근오차로 예측값과 실제값의 차이를 나타낸다, 0에 가까울 수록 오차가 줄어든다는 의미
+                _history.push(logs); // logs 안에는 log라는 property가 있으며, 그 property를 epoch가 실행될 때마다, _history에 logs를 넣는다.
+                tfvis.show.history({name: 'loss', tab:'history'}, _history, ['loss']);//학습된 loss값의 history가 그래프에 실시간으로 표현된다, epoch이 실행되는 onEpochEnd 뒤에 위치 시킨다.
+            }
+          }
+        } // loss 추가 예제
+        model.fit(날짜, 수량, fitParam).then(function (result) {
+            
+            // 4. 모델을 이용합니다. 
+            // 4.1 기존의 데이터를 이용
+            var 예측한결과 = model.predict(날짜);
+            예측한결과.print();
+
+            /*var 타겟년도 = [2022] 
+            var 타겟원인 = tf.tensor(타겟년도);
+            var 타겟결과 = model.predict(타겟원인);
+            타겟결과.print();*/
+        });  
+/*
+        var weights = model.getWeights();
+        var houseWeights = weights[0].arraySync();
+        var houseBias = weights[1].arraySync();
+        console.log(houseBias, houseWeights);
+ */       
+        // 4.2 새로운 데이터를 이용
+         
+    </script>
+</body>
+
+</html>

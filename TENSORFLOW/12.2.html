@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>TensorFlow.js Tutorial - boston housing </title>
+
+    <!-- Import TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js">//tensorflow를 web browser에 까는 API</script> 
+    <script src="10.3.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis">//</script>
+</head>
+
+<body>
+    <script>
+        /*
+        var 보스톤_원인 = [
+            [0.00632,18,2.31,0,0.538,6.575,65.2,4.09,1,296,15.3,396.9,4.98],
+            [0.02731,0,7.07,0,0.469,6.421,78.9,4.9671,2,242,17.8,396.9,9.14]
+        ];
+        var 보스톤_결과 = [
+            [24], 
+            [21.6]
+        ];
+        */
+    
+        // 1. 과거의 데이터를 준비합니다. 
+        var 원인 = tf.tensor(보스톤_원인);
+        var 결과 = tf.tensor(보스톤_결과);
+
+        // 2. 모델의 모양을 만듭니다. 
+        var X = tf.input({ shape: [13] });
+        var H1 = tf.layers.dense({ units: 13, activation:'relu' }).apply(X); //activation function을 은닉층(hidden layer)에는 지정한다, activation funciton은 지금 몰라도됨
+        var H2 = tf.layers.dense({ units: 13, activation:'relu' }).apply(H1);
+        var Y = tf.layers.dense({ units: 1 }).apply(H2);//2번째 은닉층(HIDDEN LAYER) 생성
+        var model = tf.model({ inputs: X, outputs: Y });
+        var compileParam = { optimizer: tf.train.adam(), loss: tf.losses.meanSquaredError }  //optimizer = 효율적으로 모델을 만드는 방법으로 선택해서 지정, loss = 얼마나 모델이 잘만들어졌는지 측정하는 방법
+        model.compile(compileParam);
+        tfvis.show.modelSummary({name: '요약', tab:'모델'}, model);
+        // 3. 데이터로 모델을 학습시킵니다. 
+//         var fitParam = {epochs: 100}
+        var _history = [];
+        var fitParam = { 
+          epochs: 100, 
+          callbacks:{  //callbacks = 객체
+            onEpochEnd: // onEpochEnd = property
+              function(epoch, logs){
+                console.log('epoch', epoch, logs, 'RMSE=>', Math.sqrt(logs.loss));//RMSE는 평균제곱근오차로 예측값과 실제값의 차이를 나타낸다, 0에 가까울 수록 오차가 줄어든다는 의미
+                _history.push(logs); // logs 안에는 log라는 property가 있으며, 그 property를 epoch가 실행될 때마다, _history에 logs를 넣는다.
+                tfvis.show.history({name: 'loss', tab:'history'}, _history, ['loss']);//학습된 loss값의 history가 그래프에 실시간으로 표현된다, epoch이 실행되는 onEpochEnd 뒤에 위치 시킨다.
+            }
+          }
+        } // loss 추가 예제
+        model.fit(원인, 결과, fitParam).then(function (result) {
+            
+            // 4. 모델을 이용합니다. 
+            // 4.1 기존의 데이터를 이용
+            var 예측한결과 = model.predict(원인);
+            예측한결과.print();
+
+        });  
+
+        var weights = model.getWeights();
+        var houseWeights = weights[0].arraySync();
+        var houseBias = weights[1].arraySync();
+        console.log(houseBias, houseWeights);
+        
+        // 4.2 새로운 데이터를 이용
+        // var 다음주온도 = [15,16,17,18,19]
+        // var 다음주원인 = tf.tensor(다음주온도);
+        // var 다음주결과 = model.predict(다음주원인);
+        // 다음주결과.print();
+    </script>
+</body>
+
+</html>
