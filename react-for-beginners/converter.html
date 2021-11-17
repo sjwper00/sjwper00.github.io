@@ -11,7 +11,7 @@
     <script type = "text/babel">      //JSX VER.1
 
         /* label은 input옆에 놓이는 글씨로 label글씨를 누르면 input이 선택된다 */
-        function App(){
+        function MinutestoHours(){
             const [minutes, setMinutes] = React.useState();
             const [flipped, setFlipped] = React.useState(false);
             const onChange = (event) => {
@@ -21,12 +21,12 @@
                 setMinutes(0);
             }
             const onFlip = () => {
+                reset();
                 setFlipped((current) => !current);
             };
         
             return(
                 <div>
-                    <h1 className = "hi">Super Converter</h1>
                     <div>
                     <label htmlFor = "minutes">Minutes  </label> 
                     <input 
@@ -34,7 +34,7 @@
                         id = "minutes" 
                         placeholder = "Minutes" 
                         type = "number"
-                        c
+                        onChange = {onChange}
                         disabled = {flipped}
                     />
                     </div>
@@ -53,6 +53,31 @@
                         <button onClick = {reset}> RESET </button> 
                         <button onClick = {onFlip}> FLIP </button> 
                     </div>
+                </div>
+            );
+        }
+        function KmToMiles(){
+            return(
+                <h3>KM 2 M</h3>
+            )
+        }
+        function App(){
+            const [index, setIndex] = React.useState("xx");
+            const onSelect = (event) => {
+                setIndex(event.target.value);
+            };
+            return(
+                <div>
+                    <h1 className = "hi">Super Converter</h1>
+                    <select value = {index} onChange ={onSelect}>
+                        <option value = "xx">Select Your units</option>
+                        <option value = "0">Minutes & Hours</option>
+                        <option value = "1">KM & Miles</option>
+                        </select>
+                        <hr />
+                        {index ==="0" ?  <MinutestoHours /> : null}
+                        {index ==="1" ?   <KmToMiles />: null}
+                    
                 </div>
             );
         }
